@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>物流查詢整合</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            margin: 20px auto;
+        }
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            border: none;
+            text-align: center;
+            font-size: 16px;
+        }
+        input:focus {
+            outline: none;
+            background-color: #f0f8ff;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">包裹查詢號碼</h1>
+    <table>
+        <tbody>
+            <!-- 建立 10 行 -->
+            <tr><td><input type="text" id="input-1" placeholder="請輸入包裹號碼"></td></tr>
+            <tr><td><input type="text" id="input-2" placeholder="請輸入包裹號碼"></td></tr>
+            <tr><td><input type="text" id="input-3" placeholder="請輸入包裹號碼"></td></tr>
+            <tr><td><input type="text" id="input-4" placeholder="請輸入包裹號碼"></td></tr>
+            <tr><td><input type="text" id="input-5" placeholder="請輸入包裹號碼"></td></tr>
+            <tr><td><input type="text" id="input-6" placeholder="請輸入包裹號碼"></td></tr>
+            <tr><td><input type="text" id="input-7" placeholder="請輸入包裹號碼"></td></tr>
+            <tr><td><input type="text" id="input-8" placeholder="請輸入包裹號碼"></td></tr>
+            <tr><td><input type="text" id="input-9" placeholder="請輸入包裹號碼"></td></tr>
+            <tr><td><input type="text" id="input-10" placeholder="請輸入包裹號碼"></td></tr>
+        </tbody>
+    </table>
+    <div style="text-align: center;">
+        <button onclick="clearAll()">清除重填</button>
+        <button onclick="submitToLogistics()">查詢物流狀態</button>
+    </div>
+
+    <script>
+        // 清除所有輸入框
+        function clearAll() {
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => input.value = '');
+        }
+
+        // 將包裹號碼提交到物流查詢頁面
+        function submitToLogistics() {
+            const inputs = document.querySelectorAll('input');
+            const data = Array.from(inputs)
+                .map(input => input.value.trim())
+                .filter(value => value); // 過濾空值
+            
+            if (data.length === 0) {
+                alert('請至少輸入一個包裹號碼！');
+                return;
+            }
+
+            // 生成查詢 URL (範例：假設物流系統接受 GET 查詢，並用逗號分隔號碼)
+            const baseUrl = "https://www.t-cat.com.tw/inquire/trace.aspx"; // 替換為實際的物流查詢 API 或頁面
+            const queryParam = data.join(','); // 將包裹號碼用逗號連結
+            const fullUrl = `${baseUrl}?trackingNumbers=${encodeURIComponent(queryParam)}`;
+
+            // 轉跳到物流查詢頁面
+            window.location.href = fullUrl;
+        }
+    </script>
+</body>
+</html>
